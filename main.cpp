@@ -13,17 +13,17 @@ struct Node{
     Node(int _value) : value(_value), next(nullptr), prev(nullptr){}
 };
 
-struct _queue{
+struct Queue{
     Node* first;
     Node* last;
 
-    _queue() : first(nullptr), last(nullptr) {}
+    Queue() : first(nullptr), last(nullptr) {}
 
     bool is_empty(){
         return first == nullptr;
     }
 
-    void insert(int value){
+    void queue(int value){
         Node* currentElement = new Node(value);
         currentElement->next = last;
         last = currentElement;
@@ -35,7 +35,7 @@ struct _queue{
         }
     }
 
-    int front(){
+    int unqueue(){
         int currentValue = first->value;
         Node* currentElement = first;
         first = first->prev;
@@ -110,31 +110,31 @@ struct _queue{
 int main(int argc, char *argv[]){
     //ios_base::sync_with_stdio(0);
     //cin.tie(0); cout.tie(0);
-    _queue queue1;
+    Queue queueModified;
     while(1){
         string s;
         cin >> s;
         if(s == "insert"){
             int currentValue;
             cin >> currentValue;
-            queue1.insert(currentValue);
+            queueModified.queue(currentValue);
         }
         else if(s == "front"){
-            cout << queue1.front() << '\n';
+            cout << queueModified.unqueue() << '\n';
         }
         else if(s == "insertBeforeNegative"){
-            queue1.insertBeforeNegative();
+            queueModified.insertBeforeNegative();
         }
         else if(s == "removeNegative"){
-            queue1.removeNegative();
+            queueModified.removeNegative();
         }
         else if(s == "count"){
             int currentValue;
             cin >> currentValue;
-            cout << queue1.count(currentValue) << '\n';
+            cout << queueModified.count(currentValue) << '\n';
         }
         else if(s == "delete"){
-            queue1.clear();
+            queueModified.clear();
         }
         else if(s == "stop"){
             break;
