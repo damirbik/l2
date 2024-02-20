@@ -52,7 +52,6 @@ struct Queue{
                     currentElement->next = newElement;
                     newElement->prev = currentElement;
                     first = newElement;
-                    break;
                 }
                 newElement->prev = currentElement;
                 newElement->next = currentElement->next;
