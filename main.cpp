@@ -38,26 +38,28 @@ struct Queue{
     int unqueue(){
         int currentValue = first->value;
         Node* currentElement = first;
-        first = first->prev;
+        first = currentElement->prev;
         delete currentElement;
         return currentValue;
     }
 
     void insertBeforeNegative(){
         Node* currentElement = last;
-        while(currentElement != first){
+        while(1){
             if(currentElement->value < 0){
                 Node* newElement = new Node(1);
-                newElement->next = currentElement;
-                if(currentElement == last){
-                    last->prev = newElement;
+                if(currentElement == first){
+                    currentElement->next = newElement;
+                    newElement->prev = currentElement;
+                    first = newElement;
+                    break;
                 }
-                else{
-                    newElement->prev = currentElement->prev;
-                    newElement->prev->next = newElement;
-                    currentElement->prev = newElement;
-                }
+                newElement->prev = currentElement;
+                newElement->next = currentElement->next;
+                currentElement->next = newElement;
+                newElement->next->prev = newElement;
             }
+            if(currentElement == first){ break; }
             currentElement = currentElement->next;
         }
     }
@@ -67,31 +69,43 @@ struct Queue{
             return;
         }
         Node* currentElement = last;
-        while(currentElement != first){
+        bool changeChecker = 0;
+        while(1){
             if(currentElement->value < 0){
                 if(currentElement == first){
                     first = currentElement->prev;
-                    first->next = nullptr;
+                    currentElement->prev->next = nullptr;
+                    Node* forDel = currentElement;
+                    delete forDel;
+                    break;
                 }
                 else if(currentElement == last){
                     last = currentElement->next;
-                    last->prev = nullptr;
+                    currentElement->next->prev = nullptr;
                 }
                 else{
                     currentElement->prev->next = currentElement->next;
                     currentElement->next->prev = currentElement->prev;
                 }
-                delete currentElement;
+                Node* forDel = currentElement;
+                currentElement = currentElement->next;
+                changeChecker = 1;
+                delete forDel;
             }
-            currentElement = currentElement->next;
+            if(currentElement == first){ break; }
+            if(!changeChecker){
+                currentElement = currentElement->next;
+            }
+            changeChecker = 0;
         }
     }
 
     int count(int value){
         int valueCounter = 0;
         Node* currentElement = last;
-        while(currentElement != first){
+        while(1){
             if(currentElement->value == value){ valueCounter++; }
+            if(currentElement == first){ break; }
             currentElement = currentElement->next;
         }
         return valueCounter;
