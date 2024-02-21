@@ -38,6 +38,7 @@ struct Queue{
     int unqueue(){
         int currentValue = first->value;
         Node* currentElement = first;
+        currentElement->prev->next = nullptr;
         first = currentElement->prev;
         delete currentElement;
         return currentValue;
@@ -82,8 +83,7 @@ struct Queue{
                 else if(currentElement == first){
                     currentElement->prev->next = nullptr;
                     first = currentElement->prev;
-                    Node* forDel = currentElement;
-                    delete forDel;
+                    delete currentElement;
                     return;
                 }
                 else if(currentElement == last){
