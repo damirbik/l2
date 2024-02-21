@@ -38,8 +38,10 @@ struct Queue{
     int unqueue(){
         int currentValue = first->value;
         Node* currentElement = first;
-        if(first->prev == nullptr){
+        if(first == last){
             delete currentElement;
+            first = nullptr;
+            last = nullptr;
             return currentValue;
         }
         currentElement->prev->next = nullptr;
@@ -50,6 +52,9 @@ struct Queue{
 
     void insertBeforeNegative(){
         Node* currentElement = last;
+        if(is_empty()){
+            return;
+        }
         while(1){
             if(currentElement->value < 0){
                 Node* newElement = new Node(1);
